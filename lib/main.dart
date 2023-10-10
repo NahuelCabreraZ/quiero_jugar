@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiero_jugar/home_page.dart'; // Ajusta el nombre de tu proyecto
 import 'package:quiero_jugar/LoginForm/login_form.dart';
+import 'api_service.dart';
+import 'home_bloc.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) => HomeBloc(dataService: DataService()),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
