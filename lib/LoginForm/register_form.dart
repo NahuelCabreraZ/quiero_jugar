@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterForm extends StatefulWidget {
   @override
@@ -6,9 +8,66 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _repeatPasswordController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _repeatPasswordController = TextEditingController();
+  final _ageController = TextEditingController();
+  final _locationController = TextEditingController();
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String? _email;
+  String? _password;
+  
+
+void _submitForm(BuildContext context) async {
+    print('se inicia la funcion');
+
+    if (_formKey.currentState?.validate() ?? false) {
+      _email = _emailController.text;
+      _password = _passwordController.text;
+
+      if (_password != _repeatPasswordController.text) {
+        print('Las contraseñas no coinciden');
+        return;
+      }
+
+      try {
+        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+          email: _email!,
+          password: _password!,
+        );
+
+        await FirebaseFirestore.instance.collection('usuarios').doc(userCredential.user!.uid).set({
+          'nombreCompleto': _fullNameController.text,
+          'email': _email,
+          'edad': _ageController.text,
+          'localidad': _locationController.text,
+          'contraseña': _passwordController.text,
+        });
+
+      print('El usuario ha sido registrado exitosamente: ${userCredential.user!.email}');
+      //Mensajito de success
+      final snackBar = SnackBar(
+        content: Text('Usuario registrado con éxito: ${userCredential.user!.email}'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      //Mensajito de success
+
+      Navigator.pushReplacementNamed(context, '/login');
+
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('La contraseña proporcionada es demasiado débil.');
+      } else if (e.code == 'email-already-in-use') {
+        print('Ya existe una cuenta con este correo electrónico.');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +93,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 20.0),
               Container(
               child: TextFormField(
+                controller: _fullNameController,
                 style: TextStyle(fontSize: 16.0),
                 decoration: InputDecoration(
                   labelText: 'Nombre Completo',
@@ -52,6 +112,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 20.0),
               Container(
               child: TextFormField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
@@ -71,12 +132,12 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 20.0),
               Container(
               child: TextFormField(
+                controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Contraseña',
                 border: OutlineInputBorder(),
                 filled: true, // Activa el fondo lleno
                 fillColor: Colors.white.withOpacity(0.7)),
                 obscureText: true,
-                controller: _passwordController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, ingresa tu contraseña';
@@ -88,13 +149,13 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 20.0),
               Container(
               child: TextFormField(
+                controller: _repeatPasswordController,
                 decoration: InputDecoration(
                   labelText: 'Repetir Contraseña',
                   border: OutlineInputBorder(),
                   filled: true, // Activa el fondo lleno
                 fillColor: Colors.white.withOpacity(0.7)),
                 obscureText: true,
-                controller: _repeatPasswordController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, repite tu contraseña';
@@ -109,6 +170,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 20.0),
               Container(
               child: TextFormField(
+                controller: _ageController,
                 decoration: InputDecoration(
                   labelText: 'Edad',
                   labelStyle: TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
@@ -128,6 +190,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 20.0),
               Container(
               child: TextFormField(
+                controller: _locationController,
                 decoration: InputDecoration(
                   labelText: 'Ubicación',
                   labelStyle: TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
@@ -143,17 +206,9 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               ),
               SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState != null &&
-                      _formKey.currentState!.validate()) {
-                    // Realiza la acción de registro aquí
-                    // Puedes acceder a los valores ingresados por el usuario
-                    // mediante los controladores de los campos o usando
-                    // _formKey.currentState
-                  }
-                },
-                child: Text('Registrarse'),
+                  ElevatedButton(
+                    onPressed: () => _submitForm(context), // Llama a la función _submitForm al presionar el botón
+                    child: Text('Registrarse'),
               ),
             ],
           ),

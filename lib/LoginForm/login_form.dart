@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'register_form.dart'; // Importa la pantalla de registro
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -11,13 +12,26 @@ class _LoginFormState extends State<LoginForm> {
   String? _email = '';
   String? _password = '';
 
-  void _submitForm() {
-  if (_formKey.currentState?.validate() ?? false) {
-    // Realizar la autenticación aquí (por ejemplo, enviar datos a un servidor).
-    print('Email: $_email');
-    print('Password: $_password');
+  final FirebaseAuth _auth = FirebaseAuth.instance; // Inicializa Firebase Auth
+
+  void _submitForm() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      try {
+        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: _email!,
+          password: _password!,
+        );
+        // El usuario ha iniciado sesión exitosamente
+        print('El usuario ha iniciado sesión exitosamente: ${userCredential.user!.email}');
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          print('No se encontró ninguna cuenta con este correo electrónico.');
+        } else if (e.code == 'wrong-password') {
+          print('Contraseña incorrecta.');
+        }
+      }
+    }
   }
-}
 
 @override
 Widget build(BuildContext context) {

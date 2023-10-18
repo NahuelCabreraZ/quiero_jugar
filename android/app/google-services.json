@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "776767129937",
+    "project_id": "quiero-jugar-41baa",
+    "storage_bucket": "quiero-jugar-41baa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776767129937:android:18cfe9688e15f183a76b70",
+        "android_client_info": {
+          "package_name": "com.example.quiero_jugar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776767129937-u4nm5n81jbn45o959tj16d8iadnejn5c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO7fLwPm_CziBQGXrnihD3Jy3Z6yrvbzA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776767129937-u4nm5n81jbn45o959tj16d8iadnejn5c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "776767129937-0v7fs8g887ubhk8esf1trvq8rmjb7083.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.quieroJugar"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
