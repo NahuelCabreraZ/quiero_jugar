@@ -36,7 +36,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (event is HomeLoadData) {
       yield HomeLoading();
       try {
-        final newItems = await dataService.fetchDataFromJson(); // Cargar datos desde el archivo JSON
+        final newItems = await dataService
+            .fetchDataFromJson(); // Cargar datos desde el archivo JSON
 
         final isLastPage = newItems.isEmpty;
         if (isLastPage) {
