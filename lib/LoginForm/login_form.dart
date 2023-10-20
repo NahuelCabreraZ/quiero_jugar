@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'register_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Importa el paquete Cloud Firestore
+import 'package:shared_preferences/shared_preferences.dart'; // Importa el paquete Shared Preferences
 
 class LoginForm extends StatefulWidget {
   @override
@@ -21,8 +23,25 @@ class _LoginFormState extends State<LoginForm> {
           email: _emailController.text,
           password: _passwordController.text,
         );
+        final userDoc = await FirebaseFirestore.instance
+            .collection('usuarios')
+            .doc(userCredential.user!.uid)
+            .get();
 
-        print('El usuario ha iniciado sesión exitosamente: ${userCredential.user!.email}');
+        final fullName = userDoc.data()?['nombreCompleto'];
+
+        Future<String?> _saveNameToLocalStorage(String name) async {
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('fullName', name);
+          print('Nombre completo guardado: $name');
+          return name;
+        }
+
+        // Guardar el nombre en el almacenamiento local
+        await _saveNameToLocalStorage(fullName);
+
+        print(
+            'El usuario ha iniciado sesión exitosamente: ${userCredential.user!.email}');
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -32,8 +51,7 @@ class _LoginFormState extends State<LoginForm> {
         );
 
         await Future.delayed(const Duration(seconds: 2));
-      Navigator.pushReplacementNamed(context, '/');
-
+        Navigator.pushReplacementNamed(context, '/');
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           print('No se encontró ninguna cuenta con este correo electrónico.');
@@ -50,8 +68,10 @@ class _LoginFormState extends State<LoginForm> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/background.jpg'), // Ruta a tu imagen en assets
-            fit: BoxFit.cover, // Ajusta la imagen para cubrir todo el contenedor
+            image: AssetImage(
+                'assets/background.jpg'), // Ruta a tu imagen en assets
+            fit:
+                BoxFit.cover, // Ajusta la imagen para cubrir todo el contenedor
           ),
         ),
         child: Center(
@@ -67,13 +87,17 @@ class _LoginFormState extends State<LoginForm> {
                     width: 300,
                     child: TextFormField(
                       controller: _emailController,
-                      style: TextStyle(fontSize: 16.0), // Personaliza el tamaño de fuente
+                      style: TextStyle(
+                          fontSize: 16.0), // Personaliza el tamaño de fuente
                       decoration: InputDecoration(
                         labelText: 'Email',
-                        labelStyle: TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
+                        labelStyle: TextStyle(
+                            fontSize:
+                                18.0), // Personaliza el estilo de la etiqueta
                         border: OutlineInputBorder(),
                         filled: true, // Activa el fondo lleno
-                        fillColor: Colors.white.withOpacity(0.7), // Color de fondo con transparencia
+                        fillColor: Colors.white.withOpacity(
+                            0.7), // Color de fondo con transparencia
                         // ...
                       ),
                     ),
@@ -83,13 +107,17 @@ class _LoginFormState extends State<LoginForm> {
                     width: 300,
                     child: TextFormField(
                       controller: _passwordController,
-                      style: TextStyle(fontSize: 16.0), // Personaliza el tamaño de fuente
+                      style: TextStyle(
+                          fontSize: 16.0), // Personaliza el tamaño de fuente
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        labelStyle: TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
+                        labelStyle: TextStyle(
+                            fontSize:
+                                18.0), // Personaliza el estilo de la etiqueta
                         border: OutlineInputBorder(),
                         filled: true, // Activa el fondo lleno
-                        fillColor: Colors.white.withOpacity(0.7), // Color de fondo con transparencia
+                        fillColor: Colors.white.withOpacity(
+                            0.7), // Color de fondo con transparencia
                         // ...
                       ),
                     ),
@@ -98,11 +126,14 @@ class _LoginFormState extends State<LoginForm> {
                   ElevatedButton(
                     onPressed: () => _submitForm(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue, // Cambia el color de fondo del botón
-                      foregroundColor: Colors.white, // Cambia el color del texto del botón
+                      backgroundColor:
+                          Colors.blue, // Cambia el color de fondo del botón
+                      foregroundColor:
+                          Colors.white, // Cambia el color del texto del botón
                       elevation: 5, // Cambia la elevación del botón
                     ),
-                    child: Text('Iniciar Sesión', style: TextStyle(fontSize: 18.0)),
+                    child: Text('Iniciar Sesión',
+                        style: TextStyle(fontSize: 18.0)),
                   ),
                   SizedBox(height: 20.0),
                   ElevatedButton(

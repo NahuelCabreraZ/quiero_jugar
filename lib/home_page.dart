@@ -6,6 +6,7 @@ import 'info_card_model.dart';
 import 'home_bloc.dart';
 import 'LoginForm/login_form.dart';
 import 'card_builder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,6 +14,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late String _userName;
+  late bool _isLoggedIn = false;
+
   final PagingController<int, InfoCardModel> _pagingController =
       PagingController(firstPageKey: 0);
   final DataService _dataService = DataService();
@@ -23,6 +27,17 @@ class _HomePageState extends State<HomePage> {
     _pagingController.addPageRequestListener((pageKey) {
       // Escuchar las solicitudes de página y cargar datos
       _fetchPage(pageKey);
+    });
+    _loadFullNameFromLocalStorage();
+  }
+
+  // Para recuperar el nombre completo del almacenamiento local
+  void _loadFullNameFromLocalStorage() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userName = prefs.getString('fullName') ?? '';
+      _isLoggedIn = _userName
+          .isNotEmpty; // Verifica si el usuario ha iniciado sesión // Establece el nombre completo en _userName
     });
   }
 
@@ -47,19 +62,43 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _handleLogout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(
+        'fullName'); // Elimina el nombre completo del almacenamiento local al cerrar sesión
+    setState(() {
+      _userName = ''; // Borra el nombre de usuario al cerrar sesión
+      _isLoggedIn = false; // Establece el estado de inicio de sesión en falso
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final homeBloc = BlocProvider.of<HomeBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inicio'),
+        title: Text('Home'),
         actions: [
-          IconButton(
-            icon: Icon(Icons.login),
-            onPressed: () {
-              handleLogin(context);
-            },
-          ),
+          if (_isLoggedIn) ...[
+            // Muestra el saludo y el botón de logout si el usuario ha iniciado sesión
+            Row(
+              children: [
+                Text('Hello, $_userName'),
+                IconButton(
+                  icon: Icon(Icons.logout),
+                  onPressed: _handleLogout,
+                ),
+              ],
+            ),
+          ] else ...[
+            // Muestra el botón de inicio de sesión si el usuario no ha iniciado sesión
+            IconButton(
+              icon: Icon(Icons.login),
+              onPressed: () {
+                handleLogin(context);
+              },
+            ),
+          ],
         ],
       ),
       body: PagedListView<int, InfoCardModel>(
@@ -78,7 +117,8 @@ class _HomePageState extends State<HomePage> {
           },
           firstPageErrorIndicatorBuilder: (_) =>
               const Text('Error al cargar la primera página'),
-          noItemsFoundIndicatorBuilder: (_) => const Text('No se encontraron elementos'),
+          noItemsFoundIndicatorBuilder: (_) =>
+              const Text('No se encontraron elementos'),
         ),
       ),
     );
