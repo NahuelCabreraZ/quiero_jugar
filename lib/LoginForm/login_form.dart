@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiero_jugar/home_page.dart';
 import 'register_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Importa el paquete Cloud Firestore
@@ -149,7 +150,10 @@ class _LoginFormState extends State<LoginForm> {
                   SizedBox(height: 20.0),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context); // Volver a la Pantalla Principal
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: ((context) => HomePage())
+                      )); // Volver a la Pantalla Principal
                     },
                     child: Text('Volver a la Pantalla Principal'),
                   ),

@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void handleLogin(BuildContext context) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => LoginForm()),
     );
@@ -87,6 +87,13 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                   icon: Icon(Icons.logout),
                   onPressed: _handleLogout,
+                ),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    // Aquí colocas la lógica para agregar un evento
+                    print('voy a la pantalla de crear evento');
+                  },
                 ),
               ],
             ),
