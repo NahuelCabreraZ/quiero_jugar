@@ -37,7 +37,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield HomeLoading();
       try {
         final newItems = await dataService
-            .fetchDataFromJson(); // Cargar datos desde el archivo JSON
+            .fetchDataFromFirestore(); // Cargar datos desde el archivo JSON
 
         final isLastPage = newItems.isEmpty;
         if (isLastPage) {

@@ -11,7 +11,7 @@ class PaginationLogic {
 
   Future<List<InfoCardModel>> fetchPage(int pageKey) async {
     try {
-      final List<InfoCardModel> pageData = await _dataService.fetchDataFromJson();
+      final List<InfoCardModel> pageData = await _dataService.fetchDataFromFirestore();
       return pageData;
     } catch (error) {
       // Manejar errores, como cuando no se pueden cargar los datos.

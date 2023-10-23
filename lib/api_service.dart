@@ -1,24 +1,33 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'info_card_model.dart';
-import 'package:flutter/services.dart';
 
 class DataService {
-  Future<List<InfoCardModel>> fetchDataFromJson() async {
-    final String jsonString = await rootBundle.loadString('assets/fake_data.json');
-    final List<dynamic> jsonList = json.decode(jsonString);
-    final List<InfoCardModel> infoCards = [];
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-    for (var jsonData in jsonList) {
-      final infoCard = InfoCardModel(
-        title: jsonData['title'],
-        description: jsonData['description'],
-        imageUrl: jsonData['imageUrl'],
-        likes: jsonData['likes']
-      );
-      infoCards.add(infoCard);
+  Future<List<InfoCardModel>> fetchDataFromFirestore() async {
+    try {
+      QuerySnapshot querySnapshot =
+          await _firestore.collection('eventosDeportivos').get();
+
+      List<InfoCardModel> infoCards = [];
+
+      querySnapshot.docs.forEach((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+        InfoCardModel infoCard = InfoCardModel(
+          title: data['title'],
+          description: data['description'],
+          imageUrl: data['imageUrl'],
+          likes: data['likes'],
+          location: data['location']
+        );
+
+        infoCards.add(infoCard);
+      });
+
+      return infoCards;
+    } catch (e) {
+      throw Exception('Error al obtener datos de Firestore: $e');
     }
-
-    return infoCards;
   }
 }

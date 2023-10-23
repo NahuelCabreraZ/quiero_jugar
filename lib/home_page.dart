@@ -7,6 +7,7 @@ import 'home_bloc.dart';
 import 'LoginForm/login_form.dart';
 import 'card_builder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'sports_events.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await _dataService.fetchDataFromJson();
+      final newItems = await _dataService.fetchDataFromFirestore();
       if (newItems.isEmpty) {
         _pagingController.appendLastPage([]);
       } else {
@@ -61,6 +62,12 @@ class _HomePageState extends State<HomePage> {
       MaterialPageRoute(builder: (context) => LoginForm()),
     );
   }
+  void handleCreateEvent(BuildContext context) {
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => SportsEventPage()),
+     );
+   }
 
   void _handleLogout() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,6 +78,8 @@ class _HomePageState extends State<HomePage> {
       _isLoggedIn = false; // Establece el estado de inicio de sesión en falso
     });
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +100,7 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
+                    handleCreateEvent(context);
                     // Aquí colocas la lógica para agregar un evento
                     print('voy a la pantalla de crear evento');
                   },

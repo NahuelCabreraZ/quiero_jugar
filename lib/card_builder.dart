@@ -1,6 +1,27 @@
 import 'package:flutter/material.dart';
 import 'info_card_model.dart';
 
+
+
+  Widget _buildImage(String imageUrl) {
+    return Image.network(
+      imageUrl,
+      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Center(
+          child: CircularProgressIndicator(
+            value: loadingProgress.expectedTotalBytes != null
+                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                : null,
+          ),
+        );
+      },
+      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+        return const Icon(Icons.error);
+      },
+    );
+  }
+
 class CardBuilder {
   Card buildInfoCard(InfoCardModel item, VoidCallback onJoinPressed) {
     return Card(
@@ -9,7 +30,7 @@ class CardBuilder {
       color: Colors.white.withOpacity(0.3),
       child: Column(
         children: [
-          Image.network(item.imageUrl),
+            _buildImage(item.imageUrl), // Utiliza un método privado para construir la imagen
           ListTile(
             title: Text(
               item.title,
@@ -23,6 +44,13 @@ class CardBuilder {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               item.description,
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+           Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              item.location,
               style: TextStyle(fontSize: 16),
             ),
           ),
@@ -56,3 +84,5 @@ class CardBuilder {
     );
   }
 }
+
+
