@@ -4,23 +4,12 @@ import 'info_card_model.dart';
 
 
   Widget _buildImage(String imageUrl) {
-    return Image.network(
-      imageUrl,
-      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-        if (loadingProgress == null) return child;
-        return Center(
-          child: CircularProgressIndicator(
-            value: loadingProgress.expectedTotalBytes != null
-                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                : null,
-          ),
-        );
-      },
-      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-        return const Icon(Icons.error);
-      },
-    );
+  if (imageUrl != '') {
+    return Image.network(imageUrl);
+  } else {
+    return const Placeholder(); // o cualquier otra imagen de reemplazo
   }
+}
 
 class CardBuilder {
   Card buildInfoCard(InfoCardModel item, VoidCallback onJoinPressed) {
@@ -30,7 +19,7 @@ class CardBuilder {
       color: Colors.white.withOpacity(0.3),
       child: Column(
         children: [
-            _buildImage(item.imageUrl), // Utiliza un método privado para construir la imagen
+           _buildImage(item.imageUrl ?? ''), // Utiliza un método privado para construir la imagen
           ListTile(
             title: Text(
               item.title,

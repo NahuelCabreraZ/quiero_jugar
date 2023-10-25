@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
   void handleCreateEvent(BuildContext context) {
     Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => SportsEventPage()),
+    MaterialPageRoute(builder: (context) => SportsEventForm()),
      );
    }
 
