@@ -14,32 +14,36 @@ void main() async {
   runApp(
     BlocProvider(
       create: (context) => HomeBloc(dataService: DataService()),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(), // Pantalla primaria
-        '/login': (context) => LoginForm(), // Pantalla secundaria (Formulario de inicio de sesión)
+        '/': (context) => const HomePage(), // Pantalla primaria
+        '/login': (context) => const LoginForm(), // Pantalla secundaria (Formulario de inicio de sesión)
       },
     );
   }
 }
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
-      body: Padding(
+      body: const Padding(
         padding: EdgeInsets.all(16.0),
         child: LoginForm(), // Usa la clase LoginForm aquí
       ),

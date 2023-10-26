@@ -35,11 +35,13 @@ Future<void> addSportsEventToFirestore(InfoCardModel infoCard, String imagePath)
 
 
 class SportsEventForm extends StatefulWidget {
+  const SportsEventForm({super.key});
+
   @override
-  _SportsEventFormState createState() => _SportsEventFormState();
+  SportsEventFormState createState() => SportsEventFormState();
 }
 
-class _SportsEventFormState extends State<SportsEventForm> {
+class SportsEventFormState extends State<SportsEventForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -50,7 +52,7 @@ class _SportsEventFormState extends State<SportsEventForm> {
 Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
-      title: Text('Crear evento deportivo'),
+      title: const Text('Crear evento deportivo'),
     ),
     body: Padding(
       padding: const EdgeInsets.all(16.0),
@@ -60,7 +62,7 @@ Widget build(BuildContext context) {
           children: <Widget>[
             TextFormField(
               controller: _titleController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Título',
               ),
               validator: (value) {
@@ -72,7 +74,7 @@ Widget build(BuildContext context) {
             ),
             TextFormField(
               controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Descripción'),
+              decoration: const InputDecoration(labelText: 'Descripción'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Por favor ingresa una descripción';
@@ -83,7 +85,7 @@ Widget build(BuildContext context) {
             // Agrega más campos TextFormField según sea necesario
             TextFormField(
               controller: _locationController,
-              decoration: InputDecoration(labelText: 'Ubicación'),
+              decoration: const InputDecoration(labelText: 'Ubicación'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Por favor ingresa una ubicación';
@@ -116,7 +118,7 @@ Widget build(BuildContext context) {
                     );
                    }
                   },
-                     child: Text('Subir imagen'),
+                     child: const Text('Subir imagen'),
                         ),
             // Asegúrate de ajustar los controladores y la lógica de validación para cada campo según sea necesario
             ElevatedButton(
@@ -134,7 +136,7 @@ Widget build(BuildContext context) {
                   );
                 }
               },
-              child: Text('Agregar evento'),
+              child: const Text('Agregar evento'),
             ),
           ],
         ),

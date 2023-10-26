@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart'; // Importa el paquete Clo
 import 'package:shared_preferences/shared_preferences.dart'; // Importa el paquete Shared Preferences
 
 class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
   @override
   _LoginFormState createState() => _LoginFormState();
 }
@@ -45,9 +47,9 @@ class _LoginFormState extends State<LoginForm> {
             'El usuario ha iniciado sesión exitosamente: ${userCredential.user!.email}');
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Inicio de sesión exitoso'),
-            duration: const Duration(seconds: 1),
+            duration: Duration(seconds: 1),
           ),
         );
 
@@ -67,7 +69,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
                 'assets/background.jpg'), // Ruta a tu imagen en assets
@@ -84,18 +86,18 @@ class _LoginFormState extends State<LoginForm> {
                 shrinkWrap: true,
                 children: <Widget>[
                   // Campos de formulario
-                  Container(
+                  SizedBox(
                     width: 300,
                     child: TextFormField(
                       controller: _emailController,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 16.0), // Personaliza el tamaño de fuente
                       decoration: InputDecoration(
                         labelText: 'Email',
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                             fontSize:
                                 18.0), // Personaliza el estilo de la etiqueta
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         filled: true, // Activa el fondo lleno
                         fillColor: Colors.white.withOpacity(
                             0.7), // Color de fondo con transparencia
@@ -103,19 +105,19 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20.0),
-                  Container(
+                  const SizedBox(height: 20.0),
+                  SizedBox(
                     width: 300,
                     child: TextFormField(
                       controller: _passwordController,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 16.0), // Personaliza el tamaño de fuente
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                             fontSize:
                                 18.0), // Personaliza el estilo de la etiqueta
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         filled: true, // Activa el fondo lleno
                         fillColor: Colors.white.withOpacity(
                             0.7), // Color de fondo con transparencia
@@ -123,7 +125,7 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                   ElevatedButton(
                     onPressed: () => _submitForm(context),
                     style: ElevatedButton.styleFrom(
@@ -133,29 +135,29 @@ class _LoginFormState extends State<LoginForm> {
                           Colors.white, // Cambia el color del texto del botón
                       elevation: 5, // Cambia la elevación del botón
                     ),
-                    child: Text('Iniciar Sesión',
+                    child: const Text('Iniciar Sesión',
                         style: TextStyle(fontSize: 18.0)),
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                   ElevatedButton(
                     onPressed: () {
                       // Navega a la pantalla de registro cuando se presione el botón
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RegisterForm()),
+                        MaterialPageRoute(builder: (context) => const RegisterForm()),
                       );
                     },
-                    child: Text('Registrarse'),
+                    child: const Text('Registrarse'),
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: ((context) => HomePage())
+                        MaterialPageRoute(builder: ((context) => const HomePage())
                       )); // Volver a la Pantalla Principal
                     },
-                    child: Text('Volver a la Pantalla Principal'),
+                    child: const Text('Volver a la Pantalla Principal'),
                   ),
                 ],
               ),

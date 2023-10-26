@@ -15,7 +15,7 @@ class PaginationLogic {
       return pageData;
     } catch (error) {
       // Manejar errores, como cuando no se pueden cargar los datos.
-      throw error;
+      rethrow;
     }
   }
 }

@@ -11,7 +11,7 @@ class DataService {
 
       List<InfoCardModel> infoCards = [];
 
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
         InfoCardModel infoCard = InfoCardModel(
@@ -23,7 +23,7 @@ class DataService {
         );
 
         infoCards.add(infoCard);
-      });
+      }
 
       return infoCards;
     } catch (e) {

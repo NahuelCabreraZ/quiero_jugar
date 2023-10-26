@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'api_service.dart';
 import 'info_card_model.dart';
-import 'home_bloc.dart';
+// import 'home_bloc.dart';
 import 'LoginForm/login_form.dart';
 import 'card_builder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'sports_events.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   late String _userName;
   late bool _isLoggedIn = false;
 
@@ -59,13 +61,13 @@ class _HomePageState extends State<HomePage> {
   void handleLogin(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LoginForm()),
+      MaterialPageRoute(builder: (context) => const LoginForm()),
     );
   }
   void handleCreateEvent(BuildContext context) {
     Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => SportsEventForm()),
+    MaterialPageRoute(builder: (context) => const SportsEventForm()),
      );
    }
 
@@ -83,10 +85,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final homeBloc = BlocProvider.of<HomeBloc>(context);
+    // final homeBloc = BlocProvider.of<HomeBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
         actions: [
           if (_isLoggedIn) ...[
             // Muestra el saludo y el botón de logout si el usuario ha iniciado sesión
@@ -94,11 +96,11 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Text('Hello, $_userName'),
                 IconButton(
-                  icon: Icon(Icons.logout),
+                  icon: const Icon(Icons.logout),
                   onPressed: _handleLogout,
                 ),
                 IconButton(
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                   onPressed: () {
                     handleCreateEvent(context);
                     // Aquí colocas la lógica para agregar un evento
@@ -110,7 +112,7 @@ class _HomePageState extends State<HomePage> {
           ] else ...[
             // Muestra el botón de inicio de sesión si el usuario no ha iniciado sesión
             IconButton(
-              icon: Icon(Icons.login),
+              icon: const Icon(Icons.login),
               onPressed: () {
                 handleLogin(context);
               },

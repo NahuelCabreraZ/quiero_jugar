@@ -31,7 +31,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc({required this.dataService}) : super(HomeLoading());
 
-  @override
+
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is HomeLoadData) {
       yield HomeLoading();

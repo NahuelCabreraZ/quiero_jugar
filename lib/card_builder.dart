@@ -33,14 +33,14 @@ class CardBuilder {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               item.description,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ),
            Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
               item.location,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ),
           Row(
@@ -54,7 +54,7 @@ class CardBuilder {
                   ),
                   Text(
                     '${item.likes} Likes',
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ],
               ),

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterForm extends StatefulWidget {
+  const RegisterForm({super.key});
+
   @override
   _RegisterFormState createState() => _RegisterFormState();
 }
@@ -73,32 +75,32 @@ void _submitForm(BuildContext context) async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registro'),
+        title: const Text('Registro'),
       ),
        body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/backgroundregistro.jpg'), // Ruta de tu imagen de fondo
             fit: BoxFit.cover, // Ajusta la imagen para que cubra toda la pantalla
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Opacity(
             opacity: 0.9, // Ajusta la opacidad según tus preferencias
             child: Form(
           key: _formKey,
           child: ListView(
             children: <Widget>[
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Container(
               child: TextFormField(
                 controller: _fullNameController,
-                style: TextStyle(fontSize: 16.0),
+                style: const TextStyle(fontSize: 16.0),
                 decoration: InputDecoration(
                   labelText: 'Nombre Completo',
-                  labelStyle: TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
-                  border: OutlineInputBorder(),
+                  labelStyle: const TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
+                  border: const OutlineInputBorder(),
                   filled: true, // Activa el fondo lleno
                   fillColor: Colors.white.withOpacity(0.7)),
                 validator: (value) {
@@ -109,14 +111,14 @@ void _submitForm(BuildContext context) async {
                 },
               ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Container(
               child: TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  labelStyle: TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
-                  border: OutlineInputBorder(),
+                  labelStyle: const TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
+                  border: const OutlineInputBorder(),
                   filled: true, // Activa el fondo lleno
                   fillColor: Colors.white.withOpacity(0.7)),
                 keyboardType: TextInputType.emailAddress,
@@ -129,12 +131,12 @@ void _submitForm(BuildContext context) async {
                 },
               ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Container(
               child: TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Contraseña',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 filled: true, // Activa el fondo lleno
                 fillColor: Colors.white.withOpacity(0.7)),
                 obscureText: true,
@@ -146,13 +148,13 @@ void _submitForm(BuildContext context) async {
                 },
               ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Container(
               child: TextFormField(
                 controller: _repeatPasswordController,
                 decoration: InputDecoration(
                   labelText: 'Repetir Contraseña',
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   filled: true, // Activa el fondo lleno
                 fillColor: Colors.white.withOpacity(0.7)),
                 obscureText: true,
@@ -167,14 +169,14 @@ void _submitForm(BuildContext context) async {
                 },
               ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Container(
               child: TextFormField(
                 controller: _ageController,
                 decoration: InputDecoration(
                   labelText: 'Edad',
-                  labelStyle: TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
-                  border: OutlineInputBorder(),
+                  labelStyle: const TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
+                  border: const OutlineInputBorder(),
                   filled: true, // Activa el fondo lleno
                   fillColor: Colors.white.withOpacity(0.7)),
                 keyboardType: TextInputType.number,
@@ -187,14 +189,14 @@ void _submitForm(BuildContext context) async {
                 },
               ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Container(
               child: TextFormField(
                 controller: _locationController,
                 decoration: InputDecoration(
                   labelText: 'Ubicación',
-                  labelStyle: TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
-                  border: OutlineInputBorder(),
+                  labelStyle: const TextStyle(fontSize: 18.0), // Personaliza el estilo de la etiqueta
+                  border: const OutlineInputBorder(),
                   filled: true, // Activa el fondo lleno
                   fillColor: Colors.white.withOpacity(0.7)),
                 validator: (value) {
@@ -205,10 +207,10 @@ void _submitForm(BuildContext context) async {
                 },
               ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
                   ElevatedButton(
                     onPressed: () => _submitForm(context), // Llama a la función _submitForm al presionar el botón
-                    child: Text('Registrarse'),
+                    child: const Text('Registrarse'),
               ),
             ],
           ),
